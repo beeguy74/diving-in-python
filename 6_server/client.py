@@ -62,9 +62,12 @@ class Client:
             raise ClientError
         
 cli = Client('127.0.0.1', 8888)
-# for i in range(5):
-#     cli.put("vasya", i + 0.1, 161 + i * 10)
-# time.sleep(3.)
+for i in range(5):
+    cli.put("vasya", i + 0.1, 161 + i * 10)
+time.sleep(3.)
+for i in range(5):
+    cli.put("petya", i + 12.1, 161 + i * 23)
+time.sleep(3.)
 print("petya:")
 print(cli.get("petya"))
 time.sleep(1.)

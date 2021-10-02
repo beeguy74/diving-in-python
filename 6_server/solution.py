@@ -24,8 +24,12 @@ class ClientServerProtocol(asyncio.Protocol):
     def _put(self, data):
         if len(data) != 4 :
             response = 'error\nwrong command\n\n'
-        elif not isinstance(data[1], str) and not isinstance(data[2], float) and not isinstance(data[3], int):
-            response = 'error\nwrong command\n\n'
+        elif not isinstance(data[1], str):
+            response = 'error_str\nwrong command\n\n'
+        elif not isinstance(float(data[2]), float):
+            response = 'error_float\nwrong command\n\n'
+        elif not isinstance(int(data[3]), int):
+            response = 'error_int\nwrong command\n\n'
         else:
             self._stor.setdefault(data[1], {}).update({data[3]: data[2]})
             response = 'ok\n\n'
@@ -33,7 +37,7 @@ class ClientServerProtocol(asyncio.Protocol):
         return response
 
     def _validation(self, data):
-        if len(str.split(data, '\n')) != 2:
+        if data == '\n' or len(str.split(data, '\n')) != 2:
             return None
         data = str.split(data)
         if data[0] != 'put' and data[0] != 'get':
