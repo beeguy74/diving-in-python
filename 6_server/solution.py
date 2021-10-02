@@ -24,13 +24,14 @@ class ClientServerProtocol(asyncio.Protocol):
     def _put(self, data):
         if len(data) != 4 :
             response = 'error\nwrong command\n\n'
-        elif not isinstance(data[1], str):
-            response = 'error_str\nwrong command\n\n'
-        elif not isinstance(float(data[2]), float):
-            response = 'error_float\nwrong command\n\n'
-        elif not isinstance(int(data[3]), int):
-            response = 'error_int\nwrong command\n\n'
         else:
+            try:
+                isinstance(data[1], str)
+                isinstance(float(data[2]), float)
+                isinstance(int(data[3]), int)
+            except:
+                response = 'error\nwrong command\n\n'
+                return response
             self._stor.setdefault(data[1], {}).update({data[3]: data[2]})
             response = 'ok\n\n'
             print(self._stor)
