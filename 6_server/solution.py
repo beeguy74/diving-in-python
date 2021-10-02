@@ -6,7 +6,7 @@ class ClientServerProtocol(asyncio.Protocol):
     def _responseFromTuple(self, data: tuple):
         retStr = ''
         for item in data[1].items():
-            retStr += data[0] + ' ' + item[1] + ' ' + item[0] + '\n'
+            retStr += f"{data[0]} {item[1]} {item[0]}\n"
         return retStr
 
     def _get(self, data):
@@ -26,9 +26,9 @@ class ClientServerProtocol(asyncio.Protocol):
             response = 'error\nwrong command\n\n'
         else:
             try:
-                isinstance(data[1], str)
-                isinstance(float(data[2]), float)
-                isinstance(int(data[3]), int)
+                data[1] = str(data[1])
+                data[2] = float(data[2])
+                data[3] = int(data[3])
             except:
                 response = 'error\nwrong command\n\n'
                 return response
